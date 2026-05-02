@@ -1,0 +1,24 @@
+vim.pack.add { "https://github.com/" .. "folke/persistence.nvim" }
+
+local nvim_sessions = vim.fn.stdpath "state" .. "/sessions/"
+local tmux_sessions = vim.fn.expand "~/.local/share/tmux/resurrect/"
+
+local tmux_sessions_exists = vim.fn.empty(vim.fn.globpath(tmux_sessions, "*"))
+	== 0
+
+local nvim_sessions_exists = vim.fn.empty(vim.fn.globpath(nvim_sessions, "*"))
+	== 0
+
+local is_inside_tmux = vim.env.TMUX ~= nil
+
+if nvim_sessions_exists and tmux_sessions_exists and is_inside_tmux then
+	-- Restore neovim sessions
+	vim.schedule(function() require("persistence").load() end)
+end
+
+vim.keymap.set(
+	"n",
+	"<leader>rs",
+	function() require("persistence").load() end,
+	{ desc = "Restore project files" }
+)

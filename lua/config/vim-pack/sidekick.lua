@@ -1,8 +1,5 @@
 local remote_url = "https://github.com/"
-vim.pack.add {
-	remote_url .. "folke/sidekick.nvim",
-	remote_url .. "github/copilot.vim",
-}
+vim.pack.add { remote_url .. "folke/sidekick.nvim" }
 
 local ok, sidekick = pcall(require, "sidekick")
 if not ok then return end
